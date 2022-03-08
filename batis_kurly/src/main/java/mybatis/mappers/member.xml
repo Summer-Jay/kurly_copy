@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<resultMap type="memberVO" id="memResult">
+		<result property="id"		column="id" />
+		<result property="pw"		column="pw" />
+		<result property="name" 	column="name" />
+		<result property="reg_date" column="reg_date" />
+		<result property="tel" 		column="tel" />
+		<result property="address" 	column="address" />
+		<result property="email"	column="email" />
+	</resultMap>
+	
+	
+	<select id="loginById" parameterType="String" resultType="memberVO">
+		<![CDATA[
+			SELECT * FROM customer
+			WHERE
+			id=#{id}
+		]]>
+	</select>
+	
+	<insert id="insertMember" parameterType="memberVO">
+		<!-- memberVO 속성 이름에 지정된 값을 value로 설정한다. -->
+		<![CDATA[
+			INSERT INTO customer (id, pw, name, reg_date, tel, address, email)
+			VALUES(#{id}, #{pw}, #{name}, sysdate(), #{tel}, #{address}, #{email} )	
+		]]>
+	</insert>
+	
+	<select id="getMemberInfo" parameterType="String" resultType="memberVO">
+		<![CDATA[
+			SELECT * FROM customer
+			WHERE
+			id=#{id}
+		]]>
+	</select>
+	
+	 <select id="getmembercnt" resultType="int">
+    <![CDATA[
+      	select count(*) from customer
+    ]]>
+  </select>
+	<!-- 
+	<select id="selectAllMemberList" resultMap="memResult">
+		<![CDATA[
+			SELECT * FROM t_member ORDER BY joinDate DESC
+		]]>
+	</select>
+	
+		<insert id="insertMember" parameterType="memberVO">
+		memberVO 속성 이름에 지정된 값을 value로 설정한다.
+		<![CDATA[
+			INSERT INTO t_member (id, pwd, name, email, joinDate)
+			VALUES(#{id}, #{pwd}, #{name}, #{email}, sysdate())	
+		]]>
+	</insert>
+	
+	<select id="loginById" parameterType="String" resultType="memberVO">
+		<![CDATA[
+			SELECT * FROM t_member
+			WHERE
+			id=#{id}
+		]]>
+	</select>
+	
+	회원 ID는 문자열이므로 parameterType을 String으로 설정한다.
+	<delete id="deleteMember" parameterType="String">
+		<![CDATA[
+			DELETE FROM t_member
+			WHERE
+			id=#{id}
+		]]>
+	</delete> -->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

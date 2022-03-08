@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.manager">
+	<resultMap type="managerVO" id="managerResult">
+		<result property="id" column="id" />
+		<result property="pw" column="pw" />
+		<result property="name" column="name" />
+	</resultMap>
+
+
+	<select id="loginById" parameterType="String"
+		resultType="String">
+		<![CDATA[
+			SELECT pw
+			FROM manager
+			WHERE
+			id=#{id}
+		]]>
+	</select>
+
+	<!-- <select id="getBookCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM book
+		]]>		
+	</select>
+	
+	
+	<select id="selectAllBookList" resultMap="bookResult">
+		<![CDATA[
+			SELECT * FROM book ORDER BY reg_date DESC
+		]]>
+	</select>
+
+
+	<select id="getBook" resultType="managerBookVo" parameterType="int">
+		<![CDATA[
+			SELECT * FROM book WHERE book_id=#{book_id};
+		]]>
+	</select>
+
+ 	<update id="updateBook"  parameterType="managerBookVo" >
+				<![CDATA[
+		UPDATE book SET 
+			
+			book_kind=#{book_kind} ,
+			book_title=#{book_title},
+			book_price=#{book_price},
+	        book_count=#{book_count},
+	        author=#{author},
+	        publishing_com=#{publishing_com},
+	        publishing_date=#{publishing_date},
+	        book_image=#{book_image},
+	        book_content=#{book_content},
+	        discount_rate=#{discount_rate}
+	            
+	        where book_id=#{book_id}
+				]]>
+		
+	
+	</update> 
+	
+	
+	
+
+	<insert id="insertBook" parameterType="managerBookVo">
+		<![CDATA[
+			INSERT INTO book (
+			
+					book_id,
+					book_kind,
+					book_title,
+					book_price,
+					book_count,
+					author,
+					publishing_com,
+					publishing_date,
+					book_image,
+					book_content,
+					discount_rate,
+					reg_date ) 
+					
+					VALUES(
+					
+					 #{book_id} , #{book_kind} , #{book_title}, #{book_price}, 
+					 #{book_count} , #{author} , #{publishing_com} , #{publishing_date} , 
+					 #{book_image} , #{book_content} , #{discount_rate} , now())
+			
+		]]>
+	</insert> -->
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

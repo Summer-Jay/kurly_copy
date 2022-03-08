@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.buy">
+<resultMap id="boardResult" type="buyVO">
+    <result property="customer_id" column="customer_id" />
+    <result property="customer_name" column="customer_name" />
+    <result property="cart_number" column="cart_number" />
+    <result property="item_name" column="item_name" />
+    <result property="buy_price" column="buy_price" />
+    <result property="buy_count" column="buy_count" />
+    <result property="item_image" column="item_image" />
+    <result property="buy_date" column="buy_date" />
+    <result property="howpay" column="howpay" />
+    <result property="address" column="address" />
+  </resultMap> 
+  
+  
+  	<insert id="insertOrderList" parameterType="buyVO">
+		<![CDATA[
+			INSERT INTO buy (
+					 customer_id, customer_name, cart_number, item_name, buy_price, 
+					 buy_count, item_image, buy_date, howpay, address) 
+					 VALUES(
+					 #{customer_id} , #{customer_name}, #{cart_number}, #{item_name} , 
+					 #{buy_price}, #{buy_count},#{item_image}, sysdate(), #{howpay}, #{address})	
+		]]>
+	</insert>
+	
+	<select id="getBuyList" resultType="buyVO" parameterType="String">
+	    <![CDATA[
+	      	select * from buy where customer_id=#{customer_id}
+	    ]]>
+  	</select>
+  
+   <select id="getAllBuyList" resultType="buyVO">
+    <![CDATA[
+      	select * from buy
+    ]]>
+  </select>
+  
+  <select id="getbuycnt" resultType="int">
+    <![CDATA[
+      	select count(*) from buy
+    ]]>
+  </select>
+  
+  
+  
+  
+  <!--  <select id="selectBoardListCurrentPage" resultMap="boardResult"  parameterType="hashmap" >
+    <![CDATA[
+      	SELECT * FROM t_board ORDER BY ref DESC , re_level ASC LIMIT #{starRow}, #{pageSize}
+
+    ]]>
+  </select>
+   <select id="selectBoardCount" resultType="int"  >
+		<![CDATA[
+			SELECT  count(*) from t_board		
+		]]>
+	</select>
+  
+  
+	<select id="selectNewArticleRef" resultType="int"  >
+		<![CDATA[
+			SELECT  ifnull(max(ref),0) from t_board		
+		]]>
+	</select>
+	
+	<select id="getRef" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT ref from t_board	where num=#{num}
+		]]>
+	</select>
+	
+	<select id="getRe_step" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT re_step from t_board	where num=#{num}
+		]]>
+	</select>
+	
+	<select id="getRe_level" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT re_level from t_board where num=#{num}
+		]]>
+	</select>
+	
+	<select id="getReadCount" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT readcount from t_board where num=#{num}
+		]]>
+	</select>
+	
+  <insert id="insertNewArticle" parameterType="boardVO">
+		<![CDATA[
+			INSERT INTO t_board (
+					 writer, email, subject, 
+					 password, reg_date, 
+					 ref, re_step, re_level, readcount, 
+					 content) VALUES(
+					 #{writer} , #{email}, #{subject}, 
+					 #{password} , sysdate(),
+					 #{ref} , 1, 1, 0, 
+					 #{content})
+			
+		]]>
+	</insert>
+
+	 <select id="selectOneArticle" resultType="boardVO"  parameterType="int" >
+    <![CDATA[
+      	SELECT * FROM t_board where num=#{num}
+
+    ]]>
+  </select>
+	
+  <select id="deleteBoard" resultType="boardVO"  parameterType="int" >
+    <![CDATA[
+		delete from t_board where num=#{num}
+    ]]>
+  </select>
+  
+  <select id="updateReadcount"  parameterType="boardVO" >
+    <![CDATA[
+		update t_board set 
+		
+		readcount=#{readcount} 
+ 		where num=#{num}
+    ]]>
+  </select>
+  
+    <select id="writeAnswer" parameterType="boardVO" >
+    <![CDATA[
+		INSERT INTO t_board (
+					 writer, email, subject, 
+					 password, reg_date, 
+					 ref, re_step, re_level, readcount, 
+					 content) VALUES(
+					 #{writer} , #{email}, #{subject}, 
+					 #{password} , sysdate(),
+					 #{ref} , #{re_step}, #{re_level}, 0, 
+					 #{content})
+    ]]>
+  </select> -->
+  
+</mapper>
+
+<!-- 
+
+
+
+use mybatis_db_01;
+
+create table t_board(
+num  int  NOT NULL AUTO_INCREMENT PRIMARY KEY,
+writer varchar(100),
+   email varchar(100),
+   subject varchar(100),
+   password varchar(100),
+   reg_date varchar(100),
+   ref  int ,
+   re_step  int,
+   re_level int ,
+   readcount int ,
+   content varchar(5000)
+ 	);
+
+
+select * from t_board;
+select ifnull(max(ref),0)  from t_board;
+delete from t_board;
+drop table t_board;
+ -->

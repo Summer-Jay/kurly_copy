@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.item">
+<resultMap id="boardResult" type="managerItemVO">
+    <result property="item_number" column="item_number" />
+    <result property="item_category" column="item_category" />
+    <result property="item_name" column="item_name" />
+    <result property="item_price" column="item_price" />
+    <result property="item_stock" column="item_stock" />
+    <result property="item_image" column="item_image" />
+    <result property="item_info" column="item_info" />
+    <result property="discount_rate" column="discount_rate" />
+    <result property="sold" column="sold" />
+  </resultMap> 
+  
+  
+  <select id="getAllItem" resultType="managerItemVO" >
+    <![CDATA[
+      	SELECT * FROM item
+    ]]>
+  </select>
+  
+  <select id="getNewItem" resultType="managerItemVO" >
+    <![CDATA[
+      	select * from item order by reg_date desc limit 3
+    ]]>
+  </select>
+  
+  <select id="getBestItem" resultType="managerItemVO" >
+    <![CDATA[
+      	select * from item order by sold desc limit 3
+    ]]>
+  </select>
+  
+  <select id="getDiscountedItem" resultType="managerItemVO" >
+    <![CDATA[
+      	select * from item where discount_rate>=20
+    ]]>
+  </select>
+  
+   <select id="getOneItem" resultType="managerItemVO" parameterType="int">
+    <![CDATA[
+      	select * from item where item_number=#{item_number}
+    ]]>
+  </select>
+  
+   <select id="getOneItembyName" resultType="managerItemVO" parameterType="String">
+    <![CDATA[
+      	select * from item where item_name=#{item_name}
+    ]]>
+  </select>
+  
+   <select id="getSold" resultType="int" parameterType="String">
+    <![CDATA[
+      	select sold from item where item_name=#{item_name}
+    ]]>
+  </select>
+  
+  <select id="getStock" resultType="int" parameterType="String">
+    <![CDATA[
+      	select item_stock from item where item_name=#{item_name}
+    ]]>
+  </select>
+  
+  
+  
+   <update id="updateSold" parameterType="managerItemVO">
+    <![CDATA[
+      	update item set 
+      	sold=#{sold}, item_stock=#{item_stock}
+      	
+      	where item_name=#{item_name}
+    ]]>
+  </update>
+  
+  <select id="getitemcnt" resultType="int">
+    <![CDATA[
+      	select count(*) from item
+    ]]>
+  </select>
+  
+  
+   <delete id="deleteItem"  parameterType="int" >
+    <![CDATA[
+		delete from item where item_number=#{item_number}
+    ]]>
+  </delete>
+  
+  <update id="updateItem"  parameterType="managerItemVO" >
+				<![CDATA[
+		UPDATE item SET 
+			
+			item_category=#{item_category} ,
+			item_name=#{item_name},
+			item_price=#{item_price},
+	        item_stock=#{item_stock},
+	        item_image=#{item_image},
+	        item_info=#{item_info},
+	        discount_rate=#{discount_rate}
+	            
+	        where item_number=#{item_number}
+				]]>
+	</update> 
+	
+	<insert id="registItem" parameterType="managerItemVO">
+		<![CDATA[
+			INSERT INTO item (
+			
+					item_number,item_category,item_name,
+					item_price,item_stock,item_image,
+					item_info,discount_rate,reg_date,sold
+					) 
+					
+					VALUES(
+					
+					 #{item_number} , #{item_category} , #{item_name}, #{item_price}, 
+					 #{item_stock} , #{item_image} , #{item_info} , #{discount_rate} , 
+					 now(),0)
+			
+		]]>
+	</insert>
+  
+</mapper>

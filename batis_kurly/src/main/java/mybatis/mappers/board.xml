@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+<resultMap id="boardResult" type="boardVO">
+    <result property="num" column="num" />
+    <result property="writer" column="writer" />
+    <result property="title" column="title" />
+    <result property="pw" column="pw" />
+    <result property="reg_date" column="reg_date" />
+    <result property="ref" column="ref" />
+    <result property="re_step" column="re_step" />
+    <result property="re_level" column="re_level" />
+    <result property="readcount" column="readcount" />
+    <result property="content" column="content" />
+  </resultMap> 
+  
+   <select id="selectBoardCount" resultType="int"  >
+		<![CDATA[
+			SELECT  count(*) from board		
+		]]>
+	</select>
+  
+  <select id="getBoardList" resultMap="boardResult"  >
+		<![CDATA[
+			SELECT * from board		
+		]]>
+	</select>
+  
+  <select id="selectBoardListCurrentPage" resultMap="boardResult"  parameterType="hashmap" >
+    <![CDATA[
+      	SELECT * FROM board ORDER BY ref DESC , re_level ASC LIMIT #{starRow}, #{pageSize}
+
+    ]]>
+  </select>
+  
+  
+	<select id="selectNewArticleRef" resultType="int"  >
+		<![CDATA[
+			SELECT  ifnull(max(ref),0) from board		
+		]]>
+	</select>
+	
+	<select id="getRef" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT ref from board where num=#{num}
+		]]>
+	</select>
+	
+	<select id="getRe_step" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT re_step from board	where num=#{num}
+		]]>
+	</select>
+	
+	<select id="getRe_level" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT re_level from board where num=#{num}
+		]]>
+	</select>
+	
+	<select id="getReadCount" resultType="int" parameterType="int" >
+		<![CDATA[
+			SELECT readcount from board where num=#{num}
+		]]>
+	</select>
+	
+  <insert id="insertNewArticle" parameterType="boardVO">
+		<![CDATA[
+			INSERT INTO board (
+					 num, writer, title, pw, reg_date,
+					 ref, re_step,re_level, readcount, content) 
+					 
+					 VALUES(
+					 #{num} , #{writer}, #{title}, 
+					 #{pw} , sysdate(),
+					 #{ref} , 1, 1, 0, 
+					 #{content})
+			
+		]]>
+	</insert>
+
+	 <select id="selectOneArticle" resultType="boardVO"  parameterType="int" >
+    <![CDATA[
+      	SELECT * FROM board where num=#{num}
+
+    ]]>
+  </select>
+	
+  <select id="deleteBoard" resultType="boardVO"  parameterType="int" >
+    <![CDATA[
+		delete from board where num=#{num}
+    ]]>
+  </select>
+  
+  <select id="updateReadcount"  parameterType="boardVO" >
+    <![CDATA[
+		update board set 
+		
+		readcount=#{readcount} 
+ 		where num=#{num}
+    ]]>
+  </select>
+  
+    <select id="writeAnswer" parameterType="boardVO" >
+    <![CDATA[
+		INSERT INTO board (
+					 num, writer, title, pw, reg_date,
+					 ref, re_step,re_level, readcount, content) 
+					 VALUES(
+					 #{num}, #{writer} , #{title}, 
+					 #{pw} , sysdate(),
+					 #{ref} , #{re_step}, #{re_level}, 0, 
+					 #{content})
+    ]]>
+  </select>
+  
+  <update id="updateBoard"  parameterType="boardVO" >
+				<![CDATA[
+		UPDATE board SET 
+			title=#{title} ,
+			content=#{content}
+	            
+	        where num=#{num}
+				]]>
+	</update> 
+  
+</mapper>
+
